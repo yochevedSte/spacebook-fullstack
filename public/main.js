@@ -23,7 +23,7 @@ var loadPostsFromDB = function(){
      success: function (data) {
          console.log(data);
          for(var post of data){  
-            postsRepository.posts.push({ text: post.text, comments: post.comments});
+            postsRepository.posts.push({_id:post._id, text: post.text, comments: post.comments});
          }
         postsRenderer.renderPosts(postsRepository.posts);
      },
