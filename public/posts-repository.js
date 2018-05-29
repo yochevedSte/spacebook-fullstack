@@ -7,7 +7,21 @@ class PostsRepository {
     }
 
     addPost(postText) {
-        this.posts.push({ text: postText, comments: [] });
+        return $.ajax({
+            method: "POST",
+            url: '/posts',
+            data: { text: postText },
+            dataType: "json",
+            success: (newPost) =>{
+                this.posts.push(newPost);
+                console.log(this.posts);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+                throw textStatus;
+            }
+        });
+        
     }
 
     removePost(index) {

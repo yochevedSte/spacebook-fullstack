@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 
 const SERVER_PORT = 3000;
 
-mongoose.connect('mongodb://localhost/spacebookDB', {useMongoClient: true}, function() {
+mongoose.connect('mongodb://localhost/spacebookDB', { useMongoClient: true }, function () {
   console.log("DB connection established!!!");
 })
 
@@ -17,18 +17,37 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 
-app.get('/posts', function (req, res) {
-  Post.find({},function(err, posts){
-    res.send(posts);
-  });
-  
-})
+
 
 // You will need to create 5 server routes
 // These will define your API:
 
 // 1) to handle getting all posts and their comments
+app.get('/posts', function (req, res) {
+  Post.find({}, function (err, posts) {
+    res.send(posts);
+  });
+
+});
 // 2) to handle adding a post
+app.post('/posts', function (req, res) {
+  var post = new Post({
+    text: req.body.text,
+    comments: []
+  });
+
+  post.save(function (err, postResult) {
+    if (err){
+      console.log(err);
+      res.send(err);
+    }
+    else{
+      console.log(postResult);
+      res.send(post);
+    }
+  })
+});
+
 // 3) to handle deleting a post
 // 4) to handle adding a comment to a post
 // 5) to handle deleting a comment from a post

@@ -20,9 +20,9 @@ var loadPostsFromDB = function(){
  $.ajax({
      method: "GET",
      url: '/posts',
-     success: function (data) {
-         console.log(data);
-         for(var post of data){  
+     success: function (posts) {
+         console.log(posts);
+         for(var post of posts){  
             postsRepository.posts.push({_id:post._id, text: post.text, comments: post.comments});
          }
         postsRenderer.renderPosts(postsRepository.posts);
