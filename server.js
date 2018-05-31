@@ -37,11 +37,11 @@ app.post('/posts', function (req, res) {
   });
 
   post.save(function (err, postResult) {
-    if (err){
+    if (err) {
       console.log(err);
       res.send(err);
     }
-    else{
+    else {
       console.log(postResult);
       res.send(post);
     }
@@ -49,11 +49,11 @@ app.post('/posts', function (req, res) {
 });
 
 // 3) to handle deleting a post
-app.delete('/posts/:id', function(req,res){
+app.delete('/posts/:id', function (req, res) {
   var id = req.params.id;
   console.log(id);
-  Post.findByIdAndRemove(id, function(err, deletedPost){
-    if(err){
+  Post.findByIdAndRemove(id, function (err, deletedPost) {
+    if (err) {
       console.log("error in delete");
       throw err;
     }
@@ -62,8 +62,43 @@ app.delete('/posts/:id', function(req,res){
     }
   });
 });
+
+
+
 // 4) to handle adding a comment to a post
+app.post('/posts/:id/comments', function (req, res) {
+  Post.update({ _id: req.params.id },
+    { $push: { comments: req.body } },
+    (err, updatedPost) => {
+      if (err)
+        throw err;
+      else res.send(updatedPost);
+    });
+
+
+});
+
 // 5) to handle deleting a comment from a post
+app.delete('/posts/:postId/comments/:commentId', function (req, res) {
+  let postId = req.params.postId;
+  let commentId = req.params.commentId;
+  Post.findById(postId, function (err, post) {
+    if (err) {
+      console.log("error in delete");
+      throw err;
+    }
+    else {
+      post.comments.id(commentId).remove();
+      post.save(function (err, post) {
+        if (err) return handleError(err);
+        console.log('the subdocs were removed');
+        res.send(post);
+      });
+
+    }
+  });
+});
+
 
 app.listen(SERVER_PORT, () => {
   console.log("Server started on port " + SERVER_PORT);

@@ -43,11 +43,38 @@ class PostsRepository {
     }
 
     addComment(newComment, postIndex) {
-        this.posts[postIndex].comments.push(newComment);
+        let post = this.posts[postIndex];
+        let postId = post._id;
+        return $.ajax({
+            method: "POST",
+            url: '/posts/' + post._id + '/comments',
+            data: newComment,
+            dataType: "json",
+            success: (updatedPost) =>{
+                this.posts[postIndex].comments.push(newComment);
+                console.log(updatedPost);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            }
+        });
     };
 
     deleteComment(postIndex, commentIndex) {
-        this.posts[postIndex].comments.splice(commentIndex, 1);
+        let post = this.posts[postIndex];
+        return $.ajax({
+            method: "DELETE",
+            url: '/posts/' + post._id + '/comments/'  + post.comments[commentIndex]._id ,
+            success: () =>{
+                console.log("entered success");
+                this.posts[postIndex].comments.splice(commentIndex, 1);
+                console.log("succeeded to delete comment");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("ajax error");
+                console.log(textStatus);
+            }
+        });
     };
 
    

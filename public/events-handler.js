@@ -51,8 +51,10 @@ class EventsHandler {
             let postIndex = $(event.currentTarget).closest('.post').index();
             let newComment = { text: $comment.val(), user: $user.val() };
 
-            this.postsRepository.addComment(newComment, postIndex);
-            this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+            this.postsRepository.addComment(newComment, postIndex).then(() => {
+                this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+            }).catch((err)=> { console.log(err)});
+
             $comment.val("");
             $user.val("");
         });
@@ -64,8 +66,10 @@ class EventsHandler {
             let $commentsList = $(event.currentTarget).closest('.post').find('.comments-list');
             let postIndex = $(event.currentTarget).closest('.post').index();
             let commentIndex = $(event.currentTarget).closest('.comment').index();
-            this.postsRepository.deleteComment(postIndex, commentIndex);
-            this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);
+           
+            this.postsRepository.deleteComment(postIndex, commentIndex)
+            .then(()=>{ this.postsRenderer.renderComments(this.postsRepository.posts, postIndex);})
+            .catch((err) => {console.log(err)});
         });
     }
 
