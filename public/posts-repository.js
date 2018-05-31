@@ -77,7 +77,21 @@ class PostsRepository {
         });
     };
 
-   
+    loadPostsFromDB(){
+       return $.ajax({
+            method: "GET",
+            url: '/posts',
+            success:(postsResult) => {
+                console.log(postsResult);
+                for(var post of postsResult){  
+                   this.posts.push({_id:post._id, text: post.text, comments: post.comments});
+                } 
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            }
+        });
+       }
 }
 
 export default PostsRepository
