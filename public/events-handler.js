@@ -21,9 +21,12 @@ class EventsHandler {
 
     registerRemovePost() {
         this.$posts.on('click', '.remove-post', (event) => {
-            let index = $(event.currentTarget).closest('.post').index();;
-            this.postsRepository.removePost(index);
-            this.postsRenderer.renderPosts(this.postsRepository.posts);
+            let $post =  $(event.currentTarget).closest('.post');
+            let index = $post.index();
+            this.postsRepository.removePost(index)
+            .then(()=>{ console.log("hey"); $post.remove();})
+            .catch((err) => {console.log(err)});
+           
         });
 
     }

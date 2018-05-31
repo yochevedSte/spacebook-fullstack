@@ -25,7 +25,21 @@ class PostsRepository {
     }
 
     removePost(index) {
-        this.posts.splice(index, 1);
+        console.log("entered removePOst");
+        return $.ajax({
+            method: "DELETE",
+            url: '/posts/' + this.posts[index]._id,
+            success: () =>{
+                console.log("entered success");
+                this.posts.splice(index, 1);
+                console.log("succeeded to delete post");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("ajax error");
+                console.log(textStatus);
+            }
+        });
+        
     }
 
     addComment(newComment, postIndex) {
