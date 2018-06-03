@@ -60,6 +60,25 @@ class PostsRepository {
         });
     };
 
+    updatePost(postText, postIndex){
+        let post = this.posts[postIndex];
+        let postId = post._id;
+        return $.ajax({
+            method: "PUT",
+            url: '/posts/' + post._id,
+            data: { text: postText },
+            dataType: "json",
+            success: (updatedPost) =>{
+                this.posts[postIndex]  = updatedPost;
+                console.log("hey");
+                console.log(this.posts[postIndex]);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus);
+            }
+        });
+    }
+
     deleteComment(postIndex, commentIndex) {
         let post = this.posts[postIndex];
         return $.ajax({

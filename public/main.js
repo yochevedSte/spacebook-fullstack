@@ -9,6 +9,8 @@ let eventsHandler = new EventsHandler(postsRepository, postsRenderer);
 
 eventsHandler.registerAddPost();
 eventsHandler.registerRemovePost();
+eventsHandler.registerToggleEditPost();
+eventsHandler.registerEditPost();
 eventsHandler.registerToggleComments();
 eventsHandler.registerAddComment();
 eventsHandler.registerRemoveComment();

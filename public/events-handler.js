@@ -73,6 +73,26 @@ class EventsHandler {
         });
     }
 
+    registerToggleEditPost() {
+        this.$posts.on('click', '.toggle-edit-post', (event) => {
+            let $post = $(event.currentTarget).closest('.post');
+            let $editPostContainer = $post.find('.edit-post-container');
+           $editPostContainer.toggleClass('show');
+           $editPostContainer.find('.edit-post-input').val($post.clone().children().remove().end().text());
+
+        });
+    }
+
+    registerEditPost(){
+        this.$posts.on('click', '.save-post', (event) => {
+            let postIndex = $(event.currentTarget).closest('.post').index();
+            let text = $(event.currentTarget).closest('.post').find('.edit-post-input').val().trim();
+            
+            this.postsRepository.updatePost(text, postIndex).then(() => {
+                this.postsRenderer.renderPosts(this.postsRepository.posts);
+            }).catch(()=> { console.log("Error in editPost!")});
+        });
+    }
 
 }
 

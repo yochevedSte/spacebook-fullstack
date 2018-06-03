@@ -18,7 +18,7 @@
                 <form class="post-form">
                     <h3>Add a New Post</h3>
                     <div class="form-group">
-                        <input class="form-control" type="text" id="postText" placeholder="Enter Post Text"/>
+                        <input class="form-control" type="text" id="postText" placeholder="Enter Post Text" />
                     </div>
                     <button type="button" id="addpost" class="btn btn-primary">Post</button>
                 </form>
@@ -27,7 +27,12 @@
     </div>
     <script id="post-template" type="text/x-handlebars-template">
         <div class="post" data-id={{_id}}> {{text}}  <a class="toggle-comments" href="#"> Comments </a>
-            <button type="button" class="btn btn-danger remove-post">Remove Post</button>
+            <button type="button" class="btn btn-warning edit-post toggle-edit-post">Edit Post</button>
+            <button type="button" class="btn btn-danger remove-post toggle-comments">Remove Post</button>
+            <div class="edit-post-container">
+                    <input class="form-control edit-post-input" type="text"/>
+                    <button type="button" class="form-control btn btn-success save-post">Save</button>
+            </div>
             <div class="comments-container">
                 <ul class="comments-list"></ul>
                 <input class="form-control name" type="text" placeholder="Name" />

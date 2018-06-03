@@ -13,3 +13,8 @@
 .comments-container {
     display: none;
 }
+
+.edit-post-container {
+    display: none;
+    width: 100%;
+}

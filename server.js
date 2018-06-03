@@ -49,7 +49,7 @@ app.post('/posts', function (req, res) {
 });
 
 // 3) to handle deleting a post
-app.delete('/posts/:id', function (req, res) {
+app.delete('/posts/:id', (req, res) => {
   var id = req.params.id;
   console.log(id);
   Post.findByIdAndRemove(id, function (err, deletedPost) {
@@ -59,6 +59,23 @@ app.delete('/posts/:id', function (req, res) {
     }
     else {
       res.send(deletedPost);
+    }
+  });
+});
+
+
+app.put('/posts/:id', (req,res) => {
+  var id = req.params.id;
+  console.log(req.body);
+  Post.findByIdAndUpdate(id, { $set: req.body}, {new:true} , (err, updatedPost)=>{
+    if(err) {
+      console.log(err);
+    }
+    else  {
+      console.log("hello there");
+      console.log(updatedPost);
+       res.send(updatedPost);
+       
     }
   });
 });
@@ -74,8 +91,6 @@ app.post('/posts/:id/comments', function (req, res) {
         throw err;
       else res.send(updatedPost);
     });
-
-
 });
 
 // 5) to handle deleting a comment from a post
